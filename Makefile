@@ -11,7 +11,7 @@ CPPFLAGS := -DGLEW_STATIC
 # CXXFLAGS := -Wall -Wextra -Wshadow -pedantic
 CXXFLAGS := -std=c++14 -g -O0 -Wall -Wextra -Wshadow -pedantic
 LDLIBS   := -lGLEW -lGL -lglfw
-INCL     := -Iinclude -I/usr/local/include -I/usr/local/include/eigen3
+INCL     := -Iinclude -isystem/usr/include/eigen3 -isystem/usr/local/include -isystem/usr/local/include/eigen3
 
 # These should not be modified.
 BIN  := $(BINDIR)/$(NAME)
