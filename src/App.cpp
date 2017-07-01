@@ -12,6 +12,9 @@ App::App(int /* argc */, char** /* argv */) :
 	window_                (1440, 900, "impromptu"),
 	time_                  ( (glfwSetTime(0), glfwGetTime()) ),
 
+	// Sample rate (Hz), samples per callback (latency)
+	audio_                 (48000.0, 1024),
+
 	clear_color_           (0.1, 0.1, 0.1)
 {
 	// Disable vsync.
@@ -27,6 +30,8 @@ App::App(int /* argc */, char** /* argv */) :
 
 void App::loop(void)
 {
+	audio_.start();
+
 	while (!glfwWindowShouldClose(window_))
 	{
 		time_ = glfwGetTime();

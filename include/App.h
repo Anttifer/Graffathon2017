@@ -1,6 +1,7 @@
 #ifndef APP_H
 #define APP_H
 
+#include "Audio.h"
 #include "Window.h"
 #include "ShaderCanvas.h"
 #include "GLObjects.h"
@@ -23,6 +24,9 @@ private:
 	MainWindow    window_;
 	double        time_;
 	ShaderCanvas  canvas_;
+
+	// Portaudio subsystem
+	Audio audio_;
 
 	// Parameters and options.
 	Eigen::Vector3f clear_color_;
