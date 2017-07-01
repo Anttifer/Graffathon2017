@@ -13,7 +13,7 @@ App::App(int /* argc */, char** /* argv */) :
 	time_                  ( (glfwSetTime(0), glfwGetTime()) ),
 
 	// Sample rate (Hz), samples per callback (latency)
-	audio_                 (48000.0, 1024),
+	audio_                 (&time_, 48000.0, 4096),
 
 	clear_color_           (0.1, 0.1, 0.1)
 {
@@ -30,6 +30,7 @@ App::App(int /* argc */, char** /* argv */) :
 
 void App::loop(void)
 {
+	glfwSetTime(0);
 	audio_.start();
 
 	while (!glfwWindowShouldClose(window_))

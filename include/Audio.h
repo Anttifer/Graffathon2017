@@ -2,13 +2,15 @@
 #define AUDIO_H__
 
 #include "Osc.h"
+#include "Envelope.h"
 
 #include <portaudiocpp/PortAudioCpp.hxx>
 
 class Audio
 {
 public:
-	Audio (double sample_rate, unsigned long frames_per_buffer, int num_channels = 2);
+	Audio (double* time, double sample_rate,
+	       unsigned long frames_per_buffer, int num_channels = 2);
 
 	void start();
 private:
@@ -19,6 +21,10 @@ private:
 
 	Osc left_osc_;
 	Osc right_osc_;
+	Envelope envelope_;
+	double prev_beat_;
+
+	double* time_;
 
 	portaudio::AutoSystem raii_;
 	portaudio::System &system_;
