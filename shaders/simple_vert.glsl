@@ -17,8 +17,12 @@ layout(location = 1) in vec3 aNormal;
 layout(location = 2) in vec2 aTexCoord;
 
 // Declare the uniforms.
-uniform mat4 uModelToClip = mat4(1.0);
+// uniform mat4 uModelToClip = mat4(1.0);
 uniform mat3 uNormalToWorld = mat3(1.0);
+
+uniform mat4 uModelToWorld = mat4(1.0);
+uniform mat4 uWorldToView  = mat4(1.0);
+uniform mat4 uProjection   = mat4(1.0);
 
 // Declare the outputs.
 // These will go to the fragment shader, interpolated automagically.
@@ -36,5 +40,5 @@ void main() {
 	vNormal = normalize(uNormalToWorld * aNormal);
 	vTexCoord = aTexCoord;
 
-	gl_Position = uModelToClip * vec4(aPosition, 1.0);
+	gl_Position = uProjection * uWorldToView * uModelToWorld * vec4(aPosition, 1.0);
 }

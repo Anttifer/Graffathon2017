@@ -3,8 +3,14 @@
 
 #include "Window.h"
 #include "ShaderCanvas.h"
+#include "Mesh.h"
 #include "GLObjects.h"
+#include "Stuff.h"
 #include "Examples.h"
+#include <iostream>
+
+class Renderable;
+class Updateable;
 
 //--------------------
 
@@ -19,12 +25,27 @@ public:
 	void loop (void);
 
 private:
-	// Framework objects.
-	MainWindow    window_;
-	double        time_;
-	ShaderCanvas  canvas_;
+	void render_scene (int width, int height, GLuint framebuffer = 0);
 
-	// Parameters and options.
-	Eigen::Vector3f clear_color_;
+	GL::ShaderProgram create_raymarch_shader (void);
+
+	MainWindow               window_;
+	double                   time_;
+	Eigen::Vector3f          clear_color_;
+	GL::ShaderProgram*       current_shader_;
+	std::vector<Renderable*> renderables_;
+	std::vector<Updateable*> updateables_;
+
+	ShaderCanvas             canvas_;
+	Mesh                     cube_;
+
+	GL::ShaderProgram  wave_shader_;
+	CanvasEffect       wave_effect_;
+
+	GL::ShaderProgram    rm_shader_;
+	RaymarchEffect       rm_effect_;
+
+	GL::ShaderProgram fcube_shader_;
+	FancyCube         fcube_;
 };
 #endif // APP_H
