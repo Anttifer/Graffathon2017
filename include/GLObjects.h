@@ -2,6 +2,7 @@
 #define GLOBJECTS_H
 
 #include <GL/glew.h>
+#include <iostream>
 #include <string>
 #define GL_SHADER_SOURCE(CODE) #CODE
 
@@ -103,10 +104,12 @@ private:
 
 class ShaderProgram {
 public:
-	ShaderProgram  (void);
-	ShaderProgram  (const ShaderObject& vertex_shader, const ShaderObject& fragment_shader);
-	ShaderProgram  (const ShaderObject& vertex_shader, const ShaderObject& geometry_shader,
-	                const ShaderObject& fragment_shader);
+	ShaderProgram          (void);
+	explicit ShaderProgram (const ShaderObject&);
+
+	template <typename... Args>
+	ShaderProgram  (const ShaderObject&, const ShaderObject&, const Args&... other_shaders);
+
 	ShaderProgram  (const char* vertex_source, const char* fragment_source);
 	ShaderProgram  (const ShaderProgram&) = delete;
 	ShaderProgram  (ShaderProgram&&);
@@ -116,7 +119,7 @@ public:
 	ShaderProgram& operator= (ShaderProgram&&);
 	operator GLuint          (void) const {return shader_program_;}
 
-	GLint link               (void);
+	GLint       link         (void);
 	std::string get_info_log (void);
 
 	static ShaderProgram from_files (const char* vertex_file, const char* fragment_file);
@@ -124,8 +127,15 @@ public:
 	                                 const char* fragment_file);
 	static ShaderProgram simple     (void);
 private:
+	template <typename... Args>
+	void attach_recursive (const ShaderObject&, const Args&...);
+	void attach_recursive (void) {}
+
 	GLuint shader_program_;
 };
+
+#include "GLObjects.tcc"
+
 } // namespace GL
 
 #endif // GLOBJECTS_H

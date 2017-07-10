@@ -621,12 +621,10 @@ ShaderProgram::ShaderProgram(void)
 	shader_program_ = glCreateProgram();
 }
 
-ShaderProgram::ShaderProgram(const ShaderObject& vertex_shader, const ShaderObject& fragment_shader)
+ShaderProgram::ShaderProgram(const ShaderObject& shader)
 {
 	shader_program_ = glCreateProgram();
-
-	glAttachShader(shader_program_, vertex_shader);
-	glAttachShader(shader_program_, fragment_shader);
+	glAttachShader(shader_program_, shader);
 
 	if (!link())
 	{
@@ -639,21 +637,6 @@ ShaderProgram::ShaderProgram(const char* vertex_source, const char* fragment_sou
 :	ShaderProgram(ShaderObject(GL_VERTEX_SHADER, vertex_source),
 	              ShaderObject(GL_FRAGMENT_SHADER, fragment_source))
 {}
-
-ShaderProgram::ShaderProgram(const ShaderObject& vertex_shader, const ShaderObject& geometry_shader, const ShaderObject& fragment_shader)
-{
-	shader_program_ = glCreateProgram();
-
-	glAttachShader(shader_program_, vertex_shader);
-	glAttachShader(shader_program_, geometry_shader);
-	glAttachShader(shader_program_, fragment_shader);
-
-	if (!link())
-	{
-		std::cerr << "Shader program linking failed. Info log:" << std::endl << get_info_log();
-		throw std::runtime_error("Shader program linking failed.");
-	}
-}
 
 ShaderProgram::ShaderProgram(ShaderProgram&& other)
 :	shader_program_(other.shader_program_)
