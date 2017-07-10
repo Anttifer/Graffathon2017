@@ -170,122 +170,97 @@ Mesh Mesh::from_obj(const char* filename) {
 	return mesh;
 }
 
-Mesh Mesh::cube(void) {
-	static const Vector3f vertices[] = {
-		Vector3f(-1, -1,  1),   Vector3f( 0,  0,  1),
-		Vector3f( 1, -1,  1),   Vector3f( 0,  0,  1),
-		Vector3f( 1,  1,  1),   Vector3f( 0,  0,  1),
-
-		Vector3f(-1, -1,  1),   Vector3f( 0,  0,  1),
-		Vector3f( 1,  1,  1),   Vector3f( 0,  0,  1),
-		Vector3f(-1,  1,  1),   Vector3f( 0,  0,  1),
-
-		Vector3f( 1, -1, -1),   Vector3f( 0,  0, -1),
-		Vector3f(-1, -1, -1),   Vector3f( 0,  0, -1),
-		Vector3f(-1,  1, -1),   Vector3f( 0,  0, -1),
-
-		Vector3f( 1, -1, -1),   Vector3f( 0,  0, -1),
-		Vector3f(-1,  1, -1),   Vector3f( 0,  0, -1),
-		Vector3f( 1,  1, -1),   Vector3f( 0,  0, -1),
-
-		Vector3f(-1, -1, -1),   Vector3f(-1,  0,  0),
-		Vector3f(-1, -1,  1),   Vector3f(-1,  0,  0),
-		Vector3f(-1,  1,  1),   Vector3f(-1,  0,  0),
-
-		Vector3f(-1, -1, -1),   Vector3f(-1,  0,  0),
-		Vector3f(-1,  1,  1),   Vector3f(-1,  0,  0),
-		Vector3f(-1,  1, -1),   Vector3f(-1,  0,  0),
-
-		Vector3f( 1, -1,  1),   Vector3f( 1,  0,  0),
-		Vector3f( 1, -1, -1),   Vector3f( 1,  0,  0),
-		Vector3f( 1,  1, -1),   Vector3f( 1,  0,  0),
-
-		Vector3f( 1, -1,  1),   Vector3f( 1,  0,  0),
-		Vector3f( 1,  1, -1),   Vector3f( 1,  0,  0),
-		Vector3f( 1,  1,  1),   Vector3f( 1,  0,  0),
-
-		Vector3f(-1, -1, -1),   Vector3f( 0, -1,  0),
-		Vector3f( 1, -1, -1),   Vector3f( 0, -1,  0),
-		Vector3f( 1, -1,  1),   Vector3f( 0, -1,  0),
-
-		Vector3f(-1, -1, -1),   Vector3f( 0, -1,  0),
-		Vector3f( 1, -1,  1),   Vector3f( 0, -1,  0),
-		Vector3f(-1, -1,  1),   Vector3f( 0, -1,  0),
-
-		Vector3f(-1,  1,  1),   Vector3f( 0,  1,  0),
-		Vector3f( 1,  1,  1),   Vector3f( 0,  1,  0),
-		Vector3f( 1,  1, -1),   Vector3f( 0,  1,  0),
-
-		Vector3f(-1,  1,  1),   Vector3f( 0,  1,  0),
-		Vector3f( 1,  1, -1),   Vector3f( 0,  1,  0),
-		Vector3f(-1,  1, -1),   Vector3f( 0,  1,  0)
-	};
-
-	static const Vector2f texcoords[] = {
-		Vector2f(0, 0), Vector2f(1, 0), Vector2f(1, 1),
-		Vector2f(0, 0), Vector2f(1, 1), Vector2f(0, 1),
-
-		Vector2f(0, 0), Vector2f(1, 0), Vector2f(1, 1),
-		Vector2f(0, 0), Vector2f(1, 1), Vector2f(0, 1),
-
-		Vector2f(0, 0), Vector2f(1, 0), Vector2f(1, 1),
-		Vector2f(0, 0), Vector2f(1, 1), Vector2f(0, 1),
-
-		Vector2f(0, 0), Vector2f(1, 0), Vector2f(1, 1),
-		Vector2f(0, 0), Vector2f(1, 1), Vector2f(0, 1),
-
-		Vector2f(0, 0), Vector2f(1, 0), Vector2f(1, 1),
-		Vector2f(0, 0), Vector2f(1, 1), Vector2f(0, 1),
-
-		Vector2f(0, 0), Vector2f(1, 0), Vector2f(1, 1),
-		Vector2f(0, 0), Vector2f(1, 1), Vector2f(0, 1)
-	};
-
+Mesh Mesh::canvas(void)
+{
 	Mesh mesh;
 
-	std::vector<Vector3f>& position_buffer_data = mesh.positions_;
-	std::vector<Vector3f>& normal_buffer_data = mesh.normals_;
-	std::vector<Vector2f>& texcoord_buffer_data = mesh.texcoords_;
+	mesh.positions_ = {
+		{-1.0f, -1.0f, 0.0f}, {1.0f, -1.0f, 0.0f}, { 1.0f, 1.0f, 0.0f},
+		{-1.0f, -1.0f, 0.0f}, {1.0f,  1.0f, 0.0f}, {-1.0f, 1.0f, 0.0f}
+	};
 
-	size_t size = sizeof(vertices) / sizeof(vertices[0]) / 2;
-	position_buffer_data.resize(size);
-	normal_buffer_data.resize(size);
-	texcoord_buffer_data.resize(size);
+	mesh.normals_ = {
+		{0.0f, 0.0f, 1.0f}, {0.0f, 0.0f, 1.0f}, {0.0f, 0.0f, 1.0f},
+		{0.0f, 0.0f, 1.0f}, {0.0f, 0.0f, 1.0f}, {0.0f, 0.0f, 1.0f}
+	};
 
-	for (size_t i = 0; i < size; ++i) {
-		position_buffer_data[i]	 = vertices[2*i];
-		normal_buffer_data[i]	   = vertices[2*i + 1];
-		texcoord_buffer_data[i]	 = texcoords[i];
-	}
+	mesh.texcoords_ = {
+		{0.0f, 0.0f}, {1.0f, 0.0f}, {1.0f, 1.0f},
+		{0.0f, 0.0f}, {1.0f, 1.0f}, {0.0f, 1.0f}
+	};
 
-	// Store in the VAO all the info necessary for drawing sequential vertices.
-	glBindVertexArray(mesh.vao_);
-
-	// Bind the VBO to store the cube's vertices.
-	glBindBuffer(GL_ARRAY_BUFFER, mesh.position_buffer_);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vector3f), (GLvoid*)0);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(Vector3f) * position_buffer_data.size(), position_buffer_data[0].data(), GL_STATIC_DRAW);
-
-	// Bind the VBO to store the cube's normals.
-	glBindBuffer(GL_ARRAY_BUFFER, mesh.normal_buffer_);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vector3f), (GLvoid*)0);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(Vector3f) * normal_buffer_data.size(), normal_buffer_data[0].data(), GL_STATIC_DRAW);
-
-	// Bind the VBO to store the cube's texcoords.
-	glBindBuffer(GL_ARRAY_BUFFER, mesh.texcoord_buffer_);
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vector2f), (GLvoid*)0);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(texcoords), texcoords[0].data(), GL_STATIC_DRAW);
-
-	glEnableVertexAttribArray(0);
-	glEnableVertexAttribArray(1);
-	glEnableVertexAttribArray(2);
-
-	glBindVertexArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-	// Set the rest of the info necessary for drawing the cube.
-	mesh.num_vertices_ = size;
 	mesh.primitive_type_ = GL_TRIANGLES;
+	mesh.update_buffers();
+
+	return mesh;
+}
+
+Mesh Mesh::cube(void)
+{
+	Mesh mesh;
+
+	mesh.positions_ = {
+		{-1.0f, -1.0f,  1.0f}, { 1.0f, -1.0f,  1.0f}, { 1.0f,  1.0f,  1.0f},
+		{-1.0f, -1.0f,  1.0f}, { 1.0f,  1.0f,  1.0f}, {-1.0f,  1.0f,  1.0f},
+
+		{ 1.0f, -1.0f, -1.0f}, {-1.0f, -1.0f, -1.0f}, {-1.0f,  1.0f, -1.0f},
+		{ 1.0f, -1.0f, -1.0f}, {-1.0f,  1.0f, -1.0f}, { 1.0f,  1.0f, -1.0f},
+
+		{-1.0f, -1.0f, -1.0f}, {-1.0f, -1.0f,  1.0f}, {-1.0f,  1.0f,  1.0f},
+		{-1.0f, -1.0f, -1.0f}, {-1.0f,  1.0f,  1.0f}, {-1.0f,  1.0f, -1.0f},
+
+		{ 1.0f, -1.0f,  1.0f}, { 1.0f, -1.0f, -1.0f}, { 1.0f,  1.0f, -1.0f},
+		{ 1.0f, -1.0f,  1.0f}, { 1.0f,  1.0f, -1.0f}, { 1.0f,  1.0f,  1.0f},
+
+		{-1.0f, -1.0f, -1.0f}, { 1.0f, -1.0f, -1.0f}, { 1.0f, -1.0f,  1.0f},
+		{-1.0f, -1.0f, -1.0f}, { 1.0f, -1.0f,  1.0f}, {-1.0f, -1.0f,  1.0f},
+
+		{-1.0f,  1.0f,  1.0f}, { 1.0f,  1.0f,  1.0f}, { 1.0f,  1.0f, -1.0f},
+		{-1.0f,  1.0f,  1.0f}, { 1.0f,  1.0f, -1.0f}, {-1.0f,  1.0f, -1.0f},
+	};
+
+	mesh.normals_ = {
+		{ 0.0f,  0.0f,  1.0f}, { 0.0f,  0.0f,  1.0f}, { 0.0f,  0.0f,  1.0f},
+		{ 0.0f,  0.0f,  1.0f}, { 0.0f,  0.0f,  1.0f}, { 0.0f,  0.0f,  1.0f},
+
+		{ 0.0f,  0.0f, -1.0f}, { 0.0f,  0.0f, -1.0f}, { 0.0f,  0.0f, -1.0f},
+		{ 0.0f,  0.0f, -1.0f}, { 0.0f,  0.0f, -1.0f}, { 0.0f,  0.0f, -1.0f},
+
+		{-1.0f,  0.0f,  0.0f}, {-1.0f,  0.0f,  0.0f}, {-1.0f,  0.0f,  0.0f},
+		{-1.0f,  0.0f,  0.0f}, {-1.0f,  0.0f,  0.0f}, {-1.0f,  0.0f,  0.0f},
+
+		{ 1.0f,  0.0f,  0.0f}, { 1.0f,  0.0f,  0.0f}, { 1.0f,  0.0f,  0.0f},
+		{ 1.0f,  0.0f,  0.0f}, { 1.0f,  0.0f,  0.0f}, { 1.0f,  0.0f,  0.0f},
+
+		{ 0.0f, -1.0f,  0.0f}, { 0.0f, -1.0f,  0.0f}, { 0.0f, -1.0f,  0.0f},
+		{ 0.0f, -1.0f,  0.0f}, { 0.0f, -1.0f,  0.0f}, { 0.0f, -1.0f,  0.0f},
+
+		{ 0.0f,  1.0f,  0.0f}, { 0.0f,  1.0f,  0.0f}, { 0.0f,  1.0f,  0.0f},
+		{ 0.0f,  1.0f,  0.0f}, { 0.0f,  1.0f,  0.0f}, { 0.0f,  1.0f,  0.0f}
+	};
+
+	mesh.texcoords_ = {
+		{0.0f, 0.0f}, {1.0f, 0.0f}, {1.0f, 1.0f},
+		{0.0f, 0.0f}, {1.0f, 1.0f}, {0.0f, 1.0f},
+
+		{0.0f, 0.0f}, {1.0f, 0.0f}, {1.0f, 1.0f},
+		{0.0f, 0.0f}, {1.0f, 1.0f}, {0.0f, 1.0f},
+
+		{0.0f, 0.0f}, {1.0f, 0.0f}, {1.0f, 1.0f},
+		{0.0f, 0.0f}, {1.0f, 1.0f}, {0.0f, 1.0f},
+
+		{0.0f, 0.0f}, {1.0f, 0.0f}, {1.0f, 1.0f},
+		{0.0f, 0.0f}, {1.0f, 1.0f}, {0.0f, 1.0f},
+
+		{0.0f, 0.0f}, {1.0f, 0.0f}, {1.0f, 1.0f},
+		{0.0f, 0.0f}, {1.0f, 1.0f}, {0.0f, 1.0f},
+
+		{0.0f, 0.0f}, {1.0f, 0.0f}, {1.0f, 1.0f},
+		{0.0f, 0.0f}, {1.0f, 1.0f}, {0.0f, 1.0f}
+	};
+
+	mesh.primitive_type_ = GL_TRIANGLES;
+	mesh.update_buffers();
 
 	return mesh;
 }

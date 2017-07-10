@@ -15,6 +15,7 @@ App::App(int /* argc */, char** /* argv */) :
 	time_                  ( (glfwSetTime(0), glfwGetTime()) ),
 	clear_color_           (0.1, 0.1, 0.1),
 	current_shader_        (nullptr),
+	canvas_                (Mesh::canvas()),
 	cube_                  (Mesh::cube()),
 
 	wave_shader_           (GL::ShaderProgram(

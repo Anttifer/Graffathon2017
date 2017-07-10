@@ -14,6 +14,7 @@ public:
 	void update_buffers (void);
 
 	static Mesh from_obj (const char* filename);
+	static Mesh canvas   (void);
 	static Mesh cube     (void);
 	static Mesh torus    (float major_radius, float minor_radius,
 	                      size_t major_steps, size_t minor_steps);

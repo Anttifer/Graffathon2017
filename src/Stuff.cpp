@@ -1,10 +1,9 @@
 #include "Stuff.h"
-#include "ShaderCanvas.h"
 #include "Mesh.h"
 #include "GLUtils.h"
 #include <iostream>
 
-CanvasEffect::CanvasEffect(ShaderCanvas* canvas, GL::ShaderProgram* shader) :
+CanvasEffect::CanvasEffect(Mesh* canvas, GL::ShaderProgram* shader) :
 	canvas_ (canvas),
 	shader_ (shader),
 
@@ -24,7 +23,7 @@ void CanvasEffect::draw_arrays(void)
 	glDrawArrays(canvas_->primitive_type_, 0, canvas_->num_vertices_);
 }
 
-RaymarchEffect::RaymarchEffect(ShaderCanvas* canvas, GL::ShaderProgram* shader) :
+RaymarchEffect::RaymarchEffect(Mesh* canvas, GL::ShaderProgram* shader) :
 	canvas_ (canvas),
 	shader_ (shader),
 

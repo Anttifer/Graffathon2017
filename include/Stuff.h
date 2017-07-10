@@ -6,7 +6,6 @@
 #include "Updateable.h"
 #include <Eigen/Geometry>
 
-class ShaderCanvas;
 class Mesh;
 
 //--------------------
@@ -14,14 +13,14 @@ class Mesh;
 class CanvasEffect : public Renderable
 {
 public:
-	CanvasEffect (ShaderCanvas*, GL::ShaderProgram*);
+	CanvasEffect (Mesh*, GL::ShaderProgram*);
 
 	void               set_parameters       (const RenderData&) override;
 	void               draw_arrays          (void)              override;
 	GL::ShaderProgram& shader               (void)              override { return *shader_; }
 
 private:
-	ShaderCanvas*      canvas_;
+	Mesh*              canvas_;
 	GL::ShaderProgram* shader_;
 
 	GLuint screen_size_uniform_;
@@ -31,14 +30,14 @@ private:
 class RaymarchEffect : public Renderable
 {
 public:
-	RaymarchEffect (ShaderCanvas*, GL::ShaderProgram*);
+	RaymarchEffect (Mesh*, GL::ShaderProgram*);
 
 	void               set_parameters       (const RenderData&) override;
 	void               draw_arrays          (void)              override;
 	GL::ShaderProgram& shader               (void)              override { return *shader_; }
 
 private:
-	ShaderCanvas*      canvas_;
+	Mesh*      canvas_;
 	GL::ShaderProgram* shader_;
 
 	GLuint screen_size_uniform_;

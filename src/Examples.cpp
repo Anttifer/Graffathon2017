@@ -3,7 +3,6 @@
 #include <GLFW/glfw3.h>
 #include "GLObjects.h"
 #include "GLUtils.h"
-#include "ShaderCanvas.h"
 #include "PinwheelPlane.h"
 
 //--------------------
@@ -14,7 +13,7 @@ namespace Examples
 void render_wave(int width, int height, GLuint framebuffer)
 {
 	double time = glfwGetTime();
-	static ShaderCanvas canvas;
+	static auto canvas = Mesh::canvas();
 	static auto shader = GL::ShaderProgram(
 		GL::ShaderObject::vertex_passthrough(),
 		GL::ShaderObject::from_file(GL_FRAGMENT_SHADER, "shaders/wave_frag.glsl"));
@@ -109,7 +108,7 @@ void render_pinwheel(const Eigen::Vector2f& screen_center, double pixels_per_uni
 
 void render_texture(const GL::Texture& texture, int width, int height, GLuint framebuffer)
 {
-	static ShaderCanvas canvas;
+	static auto canvas = Mesh::canvas();
 	static auto shader = GL::ShaderProgram::simple();
 
 	// Find uniform locations once.

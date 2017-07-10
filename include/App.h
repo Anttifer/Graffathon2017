@@ -2,7 +2,6 @@
 #define APP_H
 
 #include "Window.h"
-#include "ShaderCanvas.h"
 #include "Mesh.h"
 #include "GLObjects.h"
 #include "Stuff.h"
@@ -36,7 +35,7 @@ private:
 	std::vector<Renderable*> renderables_;
 	std::vector<Updateable*> updateables_;
 
-	ShaderCanvas             canvas_;
+	Mesh                     canvas_;
 	Mesh                     cube_;
 
 	GL::ShaderProgram  wave_shader_;
