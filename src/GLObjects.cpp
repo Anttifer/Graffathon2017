@@ -82,12 +82,9 @@ Buffer& Buffer::operator=(const Buffer& other)
 
 Buffer& Buffer::operator=(Buffer&& other)
 {
-	if (this != &other)
-	{
-		glDeleteBuffers(1, &buffer_);
-		buffer_ = other.buffer_;
-		other.buffer_ = 0;
-	}
+	glDeleteBuffers(1, &buffer_);
+	buffer_ = other.buffer_;
+	other.buffer_ = 0;
 
 	return *this;
 }
@@ -115,17 +112,14 @@ Texture::~Texture(void)
 
 Texture& Texture::operator=(Texture&& other)
 {
-	if (this != &other)
-	{
-		glDeleteTextures(1, &texture_);
-		texture_ = other.texture_;
-		other.texture_ = 0;
+	glDeleteTextures(1, &texture_);
+	texture_ = other.texture_;
+	other.texture_ = 0;
 
-		width_ = other.width_;
-		height_ = other.height_;
-		other.width_ = 0;
-		other.height_ = 0;
-	}
+	width_ = other.width_;
+	height_ = other.height_;
+	other.width_ = 0;
+	other.height_ = 0;
 
 	return *this;
 }
@@ -358,12 +352,9 @@ VAO::~VAO(void)
 
 VAO& VAO::operator=(VAO&& other)
 {
-	if (this != &other)
-	{
-		glDeleteVertexArrays(1, &vao_);
-		vao_ = other.vao_;
-		other.vao_ = 0;
-	}
+	glDeleteVertexArrays(1, &vao_);
+	vao_ = other.vao_;
+	other.vao_ = 0;
 
 	return *this;
 }
@@ -387,12 +378,9 @@ FBO::~FBO(void)
 
 FBO& FBO::operator=(FBO&& other)
 {
-	if (this != &other)
-	{
-		glDeleteFramebuffers(1, &fbo_);
-		fbo_ = other.fbo_;
-		other.fbo_ = 0;
-	}
+	glDeleteFramebuffers(1, &fbo_);
+	fbo_ = other.fbo_;
+	other.fbo_ = 0;
 
 	return *this;
 }
@@ -571,12 +559,9 @@ ShaderObject::~ShaderObject(void)
 
 ShaderObject& ShaderObject::operator=(ShaderObject&& other)
 {
-	if (this != &other)
-	{
-		glDeleteShader(shader_object_);
-		shader_object_ = other.shader_object_;
-		other.shader_object_ = 0;
-	}
+	glDeleteShader(shader_object_);
+	shader_object_ = other.shader_object_;
+	other.shader_object_ = 0;
 
 	return *this;
 }
@@ -651,12 +636,9 @@ ShaderProgram::~ShaderProgram(void)
 
 ShaderProgram& ShaderProgram::operator=(ShaderProgram&& other)
 {
-	if (this != &other)
-	{
-		glDeleteProgram(shader_program_);
-		shader_program_ = other.shader_program_;
-		other.shader_program_ = 0;
-	}
+	glDeleteProgram(shader_program_);
+	shader_program_ = other.shader_program_;
+	other.shader_program_ = 0;
 
 	return *this;
 }
