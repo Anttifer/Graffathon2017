@@ -5,17 +5,8 @@
 
 CanvasEffect::CanvasEffect(Mesh* canvas, GL::ShaderProgram* shader) :
 	canvas_ (canvas),
-	shader_ (shader),
-
-	screen_size_uniform_ (glGetUniformLocation(*shader_, "uScreenSize")),
-	time_uniform_        (glGetUniformLocation(*shader_, "uTime"))
+	shader_ (shader)
 {}
-
-void CanvasEffect::set_parameters(const RenderData& data)
-{
-	glUniform2i(screen_size_uniform_, data.width, data.height);
-	glUniform1f(time_uniform_, data.time);
-}
 
 void CanvasEffect::draw_arrays(void)
 {
@@ -26,9 +17,6 @@ void CanvasEffect::draw_arrays(void)
 RaymarchEffect::RaymarchEffect(Mesh* canvas, GL::ShaderProgram* shader) :
 	canvas_ (canvas),
 	shader_ (shader),
-
-	screen_size_uniform_ (glGetUniformLocation(*shader_, "uScreenSize")),
-	time_uniform_        (glGetUniformLocation(*shader_, "uTime")),
 
 	eye_uniform_         (glGetUniformLocation(*shader_, "uEye")),
 	forward_uniform_     (glGetUniformLocation(*shader_, "uForward")),
@@ -42,9 +30,6 @@ RaymarchEffect::RaymarchEffect(Mesh* canvas, GL::ShaderProgram* shader) :
 // Not updateable right now. We do everything here.
 void RaymarchEffect::set_parameters(const RenderData& data)
 {
-	glUniform2i(screen_size_uniform_, data.width, data.height);
-	glUniform1f(time_uniform_, data.time);
-
 	// Camera.
 	auto eye                = Eigen::Vector3f(3*std::sin(0.6*data.time), 2, 3*std::cos(0.6*data.time));
 	auto target             = Eigen::Vector3f::Zero();
@@ -81,9 +66,6 @@ FancyCube::FancyCube(Mesh* cube, GL::ShaderProgram* shader, GL::Texture* texture
 	source_      (Eigen::Quaternionf::Identity()),
 	target_      (Eigen::Quaternionf::Identity()),
 
-	screen_size_uniform_ (glGetUniformLocation(*shader_, "uScreenSize")),
-	time_uniform_        (glGetUniformLocation(*shader_, "uTime")),
-
 	model_uniform_       (glGetUniformLocation(*shader_, "uModelToWorld")),
 	view_uniform_        (glGetUniformLocation(*shader_, "uWorldToView")),
 	projection_uniform_  (glGetUniformLocation(*shader_, "uProjection"))
@@ -91,9 +73,6 @@ FancyCube::FancyCube(Mesh* cube, GL::ShaderProgram* shader, GL::Texture* texture
 
 void FancyCube::set_parameters(const RenderData& data)
 {
-	glUniform2i(screen_size_uniform_, data.width, data.height);
-	glUniform1f(time_uniform_, data.time);
-
 	Eigen::Matrix4f model;
 	model << attitude_.toRotationMatrix(), position_,
 	         0, 0, 0,                      1;

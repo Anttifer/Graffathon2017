@@ -15,16 +15,12 @@ class CanvasEffect : public Renderable
 public:
 	CanvasEffect (Mesh*, GL::ShaderProgram*);
 
-	void               set_parameters       (const RenderData&) override;
 	void               draw_arrays          (void)              override;
 	GL::ShaderProgram& shader               (void)              override { return *shader_; }
 
 private:
 	Mesh*              canvas_;
 	GL::ShaderProgram* shader_;
-
-	GLuint screen_size_uniform_;
-	GLuint time_uniform_;
 };
 
 class RaymarchEffect : public Renderable
@@ -39,9 +35,6 @@ public:
 private:
 	Mesh*      canvas_;
 	GL::ShaderProgram* shader_;
-
-	GLuint screen_size_uniform_;
-	GLuint time_uniform_;
 
 	GLuint eye_uniform_;
 	GLuint forward_uniform_;
@@ -77,8 +70,6 @@ private:
 	Eigen::Quaternionf source_;
 	Eigen::Quaternionf target_;
 
-	GLuint screen_size_uniform_;
-	GLuint time_uniform_;
 	GLuint model_uniform_;
 	GLuint view_uniform_;
 	GLuint projection_uniform_;

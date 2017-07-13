@@ -1,31 +1,20 @@
-#version 330
+#version 430
 
-// This is a vertex shader. It is executed once for every vertex in the mesh.
-// Afterwards, the output values are interpolated for every fragment affected
-// by this vertex, i.e. the fragments (pixels, roughly) within the triangle to
-// which this vertex belongs.
-
-// We'll color each vertex with one of 6 colours based on its index.
-// These colours will then be linearly interpolated within the triangles.
-// We'll also transform the vertices into clip space.
-
-//--------------------
-
-// Declare the inputs.
 layout(location = 0) in vec3 aPosition;
 layout(location = 1) in vec3 aNormal;
 layout(location = 2) in vec2 aTexCoord;
 
-// Declare the uniforms.
-// uniform mat4 uModelToClip = mat4(1.0);
+layout(std140, binding = 0)
+uniform BasicUniforms {
+	mat4  uWorldToView;
+	mat4  uProjection;
+	ivec2 uScreenSize;
+	float uTime;
+};
+
 uniform mat3 uNormalToWorld = mat3(1.0);
-
 uniform mat4 uModelToWorld = mat4(1.0);
-uniform mat4 uWorldToView  = mat4(1.0);
-uniform mat4 uProjection   = mat4(1.0);
 
-// Declare the outputs.
-// These will go to the fragment shader, interpolated automagically.
 out Data {
 	vec3 vColor;
 	vec3 vNormal;

@@ -36,6 +36,15 @@ private:
 	Mesh                     canvas_;
 	Mesh                     cube_;
 
+	struct BasicUniforms
+	{
+		Eigen::Matrix<float,4,4,Eigen::DontAlign> view;
+		Eigen::Matrix<float,4,4,Eigen::DontAlign> proj;
+		Eigen::Matrix<int,2,1,Eigen::DontAlign>   screen_size;
+		float                                     time;
+	};
+	GL::UBO<BasicUniforms> basic_uniforms_;
+
 	GL::ShaderProgram  wave_shader_;
 	CanvasEffect       wave_effect_;
 

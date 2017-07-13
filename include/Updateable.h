@@ -9,9 +9,11 @@
 class Updateable
 {
 public:
-	virtual ~Updateable (void) {}
+	virtual ~Updateable (void) = 0;
 
 	virtual void update (double time) = 0;
 };
+
+inline Updateable::~Updateable(void) {}
 
 #endif // UPDATEABLE_H

@@ -1,7 +1,12 @@
-#version 330
+#version 430
 
-uniform ivec2 uScreenSize;
-uniform float uTime;
+layout(std140, binding = 0)
+uniform BasicUniforms {
+	mat4  uWorldToView;
+	mat4  uProjection;
+	ivec2 uScreenSize;
+	float uTime;
+};
 
 uniform vec3 uEye;
 uniform vec3 uForward;

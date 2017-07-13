@@ -1,68 +1,41 @@
-#version 330
+#version 430
 
-// This is a fragment shader. It is executed once for every pixel* on the screen.
-// The idea is to determine the colour of the current pixel just by its coordinates,
-// which are retrieved from the vector gl_FragCoord.xy.
+layout(std140, binding = 0)
+uniform BasicUniforms {
+	mat4  uWorldToView;
+	mat4  uProjection;
+	ivec2 uScreenSize;
+	float uTime;
+};
 
-// We'll draw a centered set of axes and a waveform by checking if the current pixel
-// lies close enough to the axes or the waveform.
-
-
-// * actually for every fragment, but in this case there is no difference.
-
-//--------------------
-
-// Declare the uniforms.
-uniform ivec2 uScreenSize;
-uniform float uTime;
-
-uniform bool uTextureFlag = false;
-uniform sampler2D uTextureSampler;
-
-// Declare the inputs.
 in Data {
 	vec3 vNormal;
 	vec2 vTexCoord;
 };
 
-// Declare the output.
 layout(location = 0) out vec4 fColor;
 
+const float pi        = 3.14159265359;
+const vec4  bgColor   = vec4(vec3(0.1), 1.0);
+const vec4  waveColor = vec4(1.0, 0.6, 0.2, 1.0);
+const vec4  axesColor = vec4(0.0, 1.0, 0.0, 1.0);
+
 void main() {
-	float pi = 3.14159265359;
-	vec4 bgColor = uTextureFlag ?
-		texture(uTextureSampler, vTexCoord) : vec4(0.15, 0.1, 0.1, 1);
-
-	// Calculate the aspect ratio.
-	float AR = uScreenSize.x / float(uScreenSize.y);
-
-	// The axes will be in the middle of the screen.
+	vec2 nPos  = (gl_FragCoord.xy - 0.5 * uScreenSize) / uScreenSize.y;
 	ivec2 axes = uScreenSize / 2;
 
-	// Normalized position. The center of the screen
-	// will be at (0, 0).
-	vec2 nPos = gl_FragCoord.xy / uScreenSize - 0.5;
-	nPos.x *= AR;
+	float x = nPos.x;
+	float y = nPos.y;
 
-	// The waveform in normalized coordinates
-	// and in floating point.
-	float envelope = sin(2 * pi * nPos.x - 2 * uTime);
-	float carrier  = sin(20 * pi * nPos.x - 10 * uTime);
-	float amplitude = 0.4;
+	float envelope  = sin(2 * pi * x - 2 * uTime);
+	float carrier   = sin(20 * pi * x - 10 * uTime);
+	float amplitude = 0.2;
 
-	// The wavefrom, discretized by truncation and in screen
-	// coordinates.
-	int wave = int(axes.y * (amplitude * envelope * carrier + 1.0));
+	float dist = abs(y - amplitude*envelope*carrier);
 
-	// Check if this pixel hit either one of the axes...
+	float alpha = 1.0 - smoothstep(0.01, 0.01 + fwidth(dist), dist);
+	fColor = mix(bgColor, waveColor, alpha);
+
 	if (any(equal(ivec2(gl_FragCoord.xy), axes)))
-		fColor = vec4(0, 1, 0, 1);
-
-	// or if it hit the wave...
-	else if (int(gl_FragCoord.y) == wave)
-		fColor = vec4(1, 0.6, 0.2, 1);
-
-	// or if it didn't hit anything.
-	else
-		fColor = bgColor;
+		fColor = axesColor;
 }

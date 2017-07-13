@@ -1,6 +1,13 @@
-#version 330
+#version 430
 
-uniform float uTime;
+layout(std140, binding = 0)
+uniform BasicUniforms {
+	mat4  uWorldToView;
+	mat4  uProjection;
+	ivec2 uScreenSize;
+	float uTime;
+};
+
 uniform float uEpsilon = 0.001;
 
 // Plane distance field.

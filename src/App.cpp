@@ -18,6 +18,8 @@ App::App(int /* argc */, char** /* argv */) :
 	canvas_                (Mesh::canvas()),
 	cube_                  (Mesh::cube()),
 
+	basic_uniforms_        (0),
+
 	wave_shader_           (GL::ShaderProgram(
 		                       GL::ShaderObject::vertex_passthrough(),
 		                       GL::ShaderObject::from_file(GL_FRAGMENT_SHADER, "shaders/wave_frag.glsl"))),
@@ -43,19 +45,25 @@ App::App(int /* argc */, char** /* argv */) :
 	glEnable(GL_LINE_SMOOTH);
 
 	// renderables_.push_back(&rm_effect_);
-	// renderables_.push_back(&wave_effect_);
-	renderables_.push_back(&fcube_);
-	updateables_.push_back(&fcube_);
+	renderables_.push_back(&wave_effect_);
+	// renderables_.push_back(&fcube_);
+	// updateables_.push_back(&fcube_);
+
+	basic_uniforms_.view = GLUtils::look_at({4.0f, 4.0f, 4.0f});
 }
 
 void App::loop(void)
 {
 	while (!glfwWindowShouldClose(window_))
 	{
-		time_ = glfwGetTime();
-
 		int width, height;
 		glfwGetFramebufferSize(window_, &width, &height);
+		time_ = glfwGetTime();
+
+		basic_uniforms_.proj        = GLUtils::perspective(width, height);
+		basic_uniforms_.screen_size = {width, height};
+		basic_uniforms_.time        = time_;
+		basic_uniforms_.update_buffer();
 
 		GL::clear_color(clear_color_);
 		GL::clear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
