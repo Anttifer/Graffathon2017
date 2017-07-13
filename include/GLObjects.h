@@ -134,6 +134,26 @@ private:
 	GLuint shader_program_;
 };
 
+template <typename T>
+class UBO : public T
+{
+public:
+	explicit UBO   (GLuint index);
+	UBO            (const UBO&) = delete;
+	UBO            (UBO&&)      = default;
+	~UBO           (void);
+
+	UBO& operator= (const UBO&) = delete;
+	UBO& operator= (UBO&&)      = default;
+
+	GLuint index         (void) const { return index_; }
+	void   update_buffer (void);
+
+private:
+	Buffer buffer_;
+	GLuint index_;
+};
+
 #include "GLObjects.tcc"
 
 } // namespace GL
