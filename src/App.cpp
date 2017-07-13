@@ -23,7 +23,10 @@ App::App(int /* argc */, char** /* argv */) :
 		                       GL::ShaderObject::from_file(GL_FRAGMENT_SHADER, "shaders/wave_frag.glsl"))),
 	wave_effect_           (&canvas_, &wave_shader_),
 
-	rm_shader_             (create_raymarch_shader()),
+	rm_shader_             (GL::ShaderProgram(
+		                       GL::ShaderObject::vertex_passthrough(),
+		                       GL::ShaderObject::from_file(GL_FRAGMENT_SHADER, "shaders/rm_scene.glsl"),
+		                       GL::ShaderObject::from_file(GL_FRAGMENT_SHADER, "shaders/rm_frag.glsl"))),
 	rm_effect_             (&canvas_, &rm_shader_),
 
 	fcube_shader_          (GL::ShaderProgram::simple()),
@@ -99,27 +102,6 @@ void App::render_scene(int width, int height, GLuint framebuffer)
 		renderable->set_parameters(data);
 		renderable->draw_arrays();
 	}
-}
-
-GL::ShaderProgram App::create_raymarch_shader(void)
-{
-	auto vert       = GL::ShaderObject::vertex_passthrough();
-	auto frag_scene = GL::ShaderObject::from_file(GL_FRAGMENT_SHADER, "shaders/rm_scene.glsl");
-	auto frag_main  = GL::ShaderObject::from_file(GL_FRAGMENT_SHADER, "shaders/rm_frag.glsl");
-
-	GL::ShaderProgram program;
-
-	glAttachShader(program, vert);
-	glAttachShader(program, frag_scene);
-	glAttachShader(program, frag_main);
-
-	if (!program.link())
-	{
-		std::cerr << "Shader program linking failed. Info log:" << std::endl << program.get_info_log();
-		throw std::runtime_error("Shader program linking failed.");
-	}
-
-	return program;
 }
 
 //--------------------

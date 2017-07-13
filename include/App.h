@@ -26,8 +26,6 @@ public:
 private:
 	void render_scene (int width, int height, GLuint framebuffer = 0);
 
-	GL::ShaderProgram create_raymarch_shader (void);
-
 	MainWindow               window_;
 	double                   time_;
 	Eigen::Vector3f          clear_color_;
