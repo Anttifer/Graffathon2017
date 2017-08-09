@@ -48,6 +48,9 @@ private:
 	GL::ShaderProgram  wave_shader_;
 	CanvasEffect       wave_effect_;
 
+	GL::ShaderProgram  fire_shader_;
+	CanvasEffect       fire_effect_;
+
 	GL::ShaderProgram    rm_shader_;
 	RaymarchEffect       rm_effect_;
 

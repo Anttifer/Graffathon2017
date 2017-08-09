@@ -25,6 +25,11 @@ App::App(int /* argc */, char** /* argv */) :
 		                       GL::ShaderObject::from_file(GL_FRAGMENT_SHADER, "shaders/wave_frag.glsl"))),
 	wave_effect_           (&canvas_, &wave_shader_),
 
+	fire_shader_        (GL::ShaderProgram(
+		                    GL::ShaderObject::vertex_passthrough(),
+		                    GL::ShaderObject::from_file(GL_FRAGMENT_SHADER, "shaders/fire_frag.glsl"))),
+	fire_effect_        (&canvas_, &fire_shader_),
+
 	rm_shader_             (GL::ShaderProgram(
 		                       GL::ShaderObject::vertex_passthrough(),
 		                       GL::ShaderObject::from_file(GL_FRAGMENT_SHADER, "shaders/rm_scene.glsl"),
@@ -45,7 +50,8 @@ App::App(int /* argc */, char** /* argv */) :
 	glEnable(GL_LINE_SMOOTH);
 
 	// renderables_.push_back(&rm_effect_);
-	renderables_.push_back(&wave_effect_);
+	// renderables_.push_back(&wave_effect_);
+	renderables_.push_back(&fire_effect_);
 	// renderables_.push_back(&fcube_);
 	// updateables_.push_back(&fcube_);
 
@@ -76,8 +82,8 @@ void App::loop(void)
 		// Show the result on screen.
 		glfwSwapBuffers(window_);
 
-		// Poll events. Minimum FPS = 120.
-		glfwWaitEventsTimeout(1 / 120.0f);
+		// Poll events. Minimum FPS = 60.
+		glfwWaitEventsTimeout(1 / 60.0f);
 	}
 }
 
